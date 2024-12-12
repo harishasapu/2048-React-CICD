@@ -69,5 +69,14 @@ pipeline{
                 sh 'docker run -d --name game1 -p 3000:3000 harishasapu/game:latest'
             }
         }
+      stage('Deploy to kubernets'){
+            steps{
+                script{
+                    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s-cred', namespace: '', restrictKubeConfigAccess: false, serverUrl: ''){
+                        sh 'kubectl apply -f deployment.yaml'
+                    }
+                }
+            }
+        }
     }
 }
